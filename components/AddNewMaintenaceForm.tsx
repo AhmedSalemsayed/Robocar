@@ -8,6 +8,7 @@ import { addNewMaintenance } from "@/lib/serverUtils";
 import { useParams } from "next/navigation";
 import SubmitButton from "./SubmitButton";
 import { toast } from "sonner";
+import { AddNewMaintenanceSchema } from "@/lib/zodSchemas";
 
 interface AddNewMaintenanceProps {
   rowData: rowData;
