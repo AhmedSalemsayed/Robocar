@@ -24,7 +24,6 @@ import {
 import AddNewMaintenaceForm from "./AddNewMaintenaceForm";
 import EditLastMaintenaceForm from "./EditLastMaintenanceForm";
 import RemoveLastMaintenance from "./RemoveLastMaintenance";
-import { rowData } from "@/lib/zodSchemas";
 import UpdateChangeEveryForm from "./UpdateChangeEveryForm";
 export function ActionsDropDown({ rowData }: { rowData: rowData }) {
   const [open, setOpen] = useState(false);
