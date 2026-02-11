@@ -7,6 +7,7 @@ import CustomFormField from "./CustomFormField";
 import SubmitButton from "./SubmitButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { newCarSchema } from "@/lib/zodSchemas";
 
 export default function AddNewCarForm({
   setOpen,
