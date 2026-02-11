@@ -2,7 +2,6 @@
 import { useForm } from "react-hook-form";
 import { HandleAddNewCar } from "@/lib/serverUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { newCarSchema, NewCarType } from "@/lib/zodSchemas";
 import { Form, FormField } from "./ui/form";
 import CustomFormField from "./CustomFormField";
 import SubmitButton from "./SubmitButton";

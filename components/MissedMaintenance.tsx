@@ -1,5 +1,5 @@
 "use client";
-import { MaintenanceItem, MissedMaintenanceData } from "@/lib/zodSchemas";
+import { MaintenanceItem, MissedMaintenanceData } from "";
 import { useSidebar } from "./ui/sidebar";
 
 export default function MissedMaintenance({

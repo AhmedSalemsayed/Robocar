@@ -1,5 +1,5 @@
 "use client";
-import { car } from "@/lib/zodSchemas";
+
 import Image from "next/image";
 import CountUp from "react-countup";
 import UpdateKilometrage from "./UpdateKilometrage";

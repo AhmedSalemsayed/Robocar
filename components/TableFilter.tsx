@@ -12,7 +12,7 @@ import { IoFilter } from "react-icons/io5";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Table } from "@tanstack/react-table";
-import { MaintenanceItem } from "@/lib/zodSchemas";
+import { MaintenanceItem } from "";
 export default function TableFilter({
   table,
 }: {

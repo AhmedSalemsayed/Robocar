@@ -1,7 +1,6 @@
 "use server";
 import { createClerkSupabaseClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { MaintenanceItem, NewCarType } from "@/lib/zodSchemas";
 
 export async function HandleAddNewCar(formData: NewCarType) {
   const { carImage } = formData;
