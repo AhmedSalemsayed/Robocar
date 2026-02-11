@@ -14,7 +14,11 @@ import { TooltipProvider } from "./ui/tooltip";
 export function AppSidebar() {
   const { state, isMobile } = useSidebar();
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="bg-white">
+    <Sidebar
+      variant="sidebar"
+      collapsible="icon"
+      className="bg-[#fafbfd] dark:bg-[#121212]"
+    >
       <SidebarHeader className="flex flex-row gap-2 items-center overflow-hidden pt-[15px]">
         <div className="relative w-6 h-6 md:h-7  md:w-7  flex items-center justify-center">
           <Image

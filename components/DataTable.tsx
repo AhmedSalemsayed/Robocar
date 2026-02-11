@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MaintenanceItem } from "@/lib/zodSchemas";
 import TableFilter from "./TableFilter";
 
 interface DataTableProps<TData> {
@@ -65,14 +64,14 @@ export default function DataTable({
     globalFilterFn: customFilterFn,
   });
   return (
-    <>
+    <div className="flex flex-col gap-2 overflow-auto">
       <div className="flex justify-end items-center">
         <div>
           <span className="mr-5">{table.getState().globalFilter}</span>
           <TableFilter table={table} />
         </div>
       </div>
-      <Table className="bg-white rounded-md p-4">
+      <Table className="bg-white rounded-md p-4 overflow-auto">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -132,6 +131,6 @@ export default function DataTable({
           )}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }

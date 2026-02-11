@@ -2,12 +2,7 @@ import AddNewCar from "@/components/AddNewCar";
 import BarChart from "@/components/BarChart";
 import MissedMaintenance from "@/components/MissedMaintenance";
 import UpcomingMaintenance from "@/components/UpcomingMaintenance";
-import {
-  car,
-  MaintenanceItem,
-  MissedMaintenanceData,
-  UpcomingMaintenanceData,
-} from "@/lib/zodSchemas";
+
 import { createClerkSupabaseClient } from "@/utils/supabase/server";
 import * as motion from "motion/react-client";
 import { Metadata } from "next";

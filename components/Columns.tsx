@@ -1,6 +1,5 @@
 "use client";
 
-import { MaintenanceItem } from "@/lib/zodSchemas";
 import { ColumnDef } from "@tanstack/react-table";
 import { ActionsDropDown } from "./ActionsDropDown";
 import StatusPill from "./StatusPill";

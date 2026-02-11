@@ -8,9 +8,11 @@ export default function MobileHeader() {
       <div className="h-7 w-7 relative flex items-center justify-center">
         <Image
           src="/logo.png"
-          alt="logo"
+          alt="RoboCar Logo"
           fill
-          className="dark:invert dark:brightness-200"
+          sizes="28px"
+          className="dark:invert dark:brightness-200 object-contain"
+          priority
         />
       </div>
       <span

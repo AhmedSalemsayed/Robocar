@@ -14,7 +14,7 @@ export default function Header() {
           {/* <Notifications /> */}
           <DarkModeBtn />
         </div>
-        <div className="h-[80%] w-[1px] mt-[3px] bg-slate-200 dark:bg-[#e2e2e2]" />
+        <div className="h-6 w-[1px] self-center bg-slate-200 dark:bg-[#e2e2e2]" />
         <Suspense fallback={<User2Icon />}>
           <SignedIn>
             <UserButton />

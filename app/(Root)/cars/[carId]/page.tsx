@@ -1,7 +1,6 @@
 import CarInfo from "@/components/CarInfo";
 import CarInfoLoadingSkeleton from "@/components/CarInfoLoadingSkeleton";
 import CarMaintenanceTable from "@/components/CarMaintenanceTable";
-import { car } from "@/lib/zodSchemas";
 import { createClerkSupabaseClient } from "@/utils/supabase/server";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -31,7 +30,7 @@ export default async function Page({ params }: Props) {
   const car: car = data?.at(0);
   const maintainanceData = car?.Maintenance;
   return (
-    <section className="flex flex-col flex-1 gap-2 p-1  md:pt-0 w-full ">
+    <section className="flex flex-col flex-1 gap-2 p-1  md:pt-0 min-w-full max-h-dvh overflow-hidden ">
       <Suspense fallback={<CarInfoLoadingSkeleton />}>
         <CarInfo car={car} />
       </Suspense>

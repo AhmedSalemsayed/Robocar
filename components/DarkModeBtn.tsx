@@ -8,7 +8,8 @@ export default function DarkModeBtn() {
 
   return (
     <button
-      className="hover:bg-slate-200 rounded-full dark:hover:bg-[#2a2a2a] p-1"
+      aria-label="Toggle dark mode"
+      className="hover:bg-slate-200 rounded-full dark:hover:bg-[#2a2a2a] p-1 transition-colors"
       onClick={() => {
         document.documentElement.classList.toggle("dark");
         toggle();

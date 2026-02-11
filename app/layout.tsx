@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider>
         <body
-          className={`${roboto.variable} ${LuckiestGuy.variable} antialiased max-w-[1440px] m-auto selection:bg-purple-500 min-h-svh
+          className={`${roboto.variable} ${LuckiestGuy.variable} antialiased max-w-[1440px] m-auto selection:bg-purple-500 min-h-svh bg-[#fafbfd] dark:bg-[#121212] 
           `}
         >
           {children}

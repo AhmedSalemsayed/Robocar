@@ -1,6 +1,5 @@
 "use client";
 
-import { MaintenanceItem } from "@/lib/zodSchemas";
 import { columns } from "./Columns";
 import DataTable from "./DataTable";
 

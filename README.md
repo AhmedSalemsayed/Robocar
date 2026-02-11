@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RoboCar
 
-## Getting Started
+**RoboCar** is a car maintenance tracking application built with **Next.js 15**. It allows users to manage multiple vehicles, track maintenance history for specific components (like brake pads, engine oil, etc.), and receive alerts for upcoming or missed maintenance.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   **Framework**: Next.js 15 (App Router)
+-   **Language**: TypeScript
+-   **Styling**: Tailwind CSS + Shadcn/UI (Radix UI) + Framer Motion
+-   **Backend/Database**: Supabase (PostgreSQL)
+-   **Authentication**: Clerk
+-   **Form Handling**: React Hook Form + Zod
+-   **Visualization**: Chart.js / React Chartjs 2
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+The project follows the standard Next.js App Router structure:
 
-To learn more about Next.js, take a look at the following resources:
+-   `app/`: Contains the application routes.
+    -   `(Auth)`: Authentication routes (sign-in/up).
+    -   `(Root)`: Main application layout and pages.
+        -   `page.tsx`: The **Dashboard**, showing upcoming/missed maintenance and charts.
+        -   `cars/`:
+            -   `page.tsx`: **My Cars** list.
+            -   `[carId]/page.tsx`: **Car Details** view with maintenance history.
+-   `components/`: Reusable UI components (e.g., `CarCard`, `BarChart`, `AddNewCar`).
+-   `lib/`:
+    -   `serverUtils.ts`: Crucial server-side logic for adding cars, updating maintenance logs, and handling database interactions.
+    -   `zodSchemas.ts`: Validation schemas for forms.
+-   `utils/`:
+    -   `supabase/`: Supabase client initialization (Client and Server).
+-   `middleware.ts`: Clerk authentication middleware protecting the `/` and `/cars` routes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Data Model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The core entity is the **Car**, stored in the `cars` table in Supabase.
 
-## Deploy on Vercel
+**Key fields:**
+-   `carId`: Unique identifier (UUID).
+-   `brand`, `model`, `year`, `color`: Basic info.
+-   `currentKilometrage`: Mileage tracker.
+-   `carImage`: URL to the image stored in Supabase Storage.
+-   `Maintenance`: A **JSON** column containing an array of maintenance items.
+    -   Each item (e.g., "Brake Pads") has:
+        -   `changeEvery`: Interval in km.
+        -   `historyLog`: Array of past maintenance records.
+        -   `currentKilometrage`: Mileage at last check.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  **Dashboard**:
+    -   Calculates "Upcoming" (due in < 1000km) and "Missed" (overdue) maintenance dynamically from the car list.
+    -   Visualizes data using charts.
+2.  **Car Management**:
+    -   Users can add cars with images (uploaded to Supabase Storage).
+    -   Cars are initialized with a standard set of maintenance items (defined in `serverUtils.ts`).
+3.  **Maintenance Tracking**:
+    -   Users can log new maintenance events.
+    -   The system updates the `historyLog` and recalculates due dates based on `kilometrageNextMaintenance`.
+
+## Important Files
+
+-   **`lib/serverUtils.ts`**: This file contains the "business logic". It handles complex operations like initializing the default maintenance list for a new car and updating nested JSON arrays for maintenance logs.
+-   **`middleware.ts`**: Ensures that only authenticated users can access the dashboard and car data.
