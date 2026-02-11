@@ -7,7 +7,6 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
 import NavLink from "./NavLink";
 import { TooltipProvider } from "./ui/tooltip";
 
