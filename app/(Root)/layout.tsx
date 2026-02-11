@@ -18,7 +18,7 @@ export default async function layout({
       defaultOpen={defaultOpen}
     >
       <AppSidebar />
-      {/* <MobileHeader /> */}
+      <MobileHeader />
       <main className="bg-[#fafbfd] dark:bg-[#121212] relative w-full max-w-[1440px] flex-1 min-w-0 h-full min-h-dvh flex flex-col justify-between gap-4 p-1 font-Roboto overflow-auto">
         <Header />
         {children}

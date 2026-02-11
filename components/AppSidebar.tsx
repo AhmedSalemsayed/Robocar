@@ -20,16 +20,11 @@ export function AppSidebar() {
       className="bg-[#fafbfd] dark:bg-[#121212]"
     >
       <SidebarHeader className="flex flex-row gap-2 items-center overflow-hidden pt-[15px]">
-        <div className="relative w-6 h-6 md:h-7  md:w-7  flex items-center justify-center">
-          <Image
-            src="/logo.png"
-            alt="logo"
-            fill
-            className="dark:invert dark:brightness-200"
-          />
-        </div>
+       <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-3xl shadow-2xl">
+              <Car className="w-5 h-5 text-white" strokeWidth={2} />
+       </div>
         {state === "expanded" && (
-          <span className="font-LuckiestGuy pointer-events-none dark:text-white tracking-wide text-black text-2xl md:text-2xl ml-3 md:ml-3">
+          <span className="font-LuckiestGuy pointer-events-none  tracking-wide text-black text-2xl md:text-2xl ml-3 md:ml-3 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 dark:from-purple-400 dark:via-blue-400 dark:to-purple-400">
             RoboCar
           </span>
         )}
@@ -42,7 +37,7 @@ export function AppSidebar() {
 
       <SidebarContent className="flex flex-col justify-start pt-4">
         <TooltipProvider>
-          <NavLink icon={<Home />} title="Dashboard" href="/" exact={true} />
+          <NavLink icon={<Home />} title="Dashboard" href="/dashboard" exact={true} />
           <NavLink icon={<Car />} title="Cars" href="/cars" />
         </TooltipProvider>
       </SidebarContent>

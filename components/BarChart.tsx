@@ -10,8 +10,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { car, MaintenanceItem } from "@/lib/zodSchemas";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useDarkMode } from "usehooks-ts";
+import { motion } from "motion/react";
 
 ChartJS.register(
   BarElement,
@@ -21,9 +22,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-//MaintenanceData?.map((ele) => ele.map((item) => item.name)).flat()
 const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
   const isMobile = useIsMobile();
+  const { isDarkMode } = useDarkMode();
   if (!MaintenanceData || MaintenanceData.length === 0) return null;
   const colorPalette = [
     "rgba(153, 102, 255, 0.9)", // purple
@@ -59,20 +60,31 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
   };
 
   const options = {
+    maintainAspectRatio: !isMobile,
+    aspectRatio: isMobile ? undefined : 2,
     scales: {
       y: {
         title: {
           display: true,
           text: "Condition (%)",
-          color: "#807e7e",
+          color: isDarkMode ? "#8b8c8dff" : "#8d0606ff",
           font: {
             size: 14,
           },
         },
+        min: 0,
+        max: 100,
         beginAtZero: true,
         ticks: {
           stepSize: 10,
           callback: (value: number | string) => value + " %",
+          color: isDarkMode ? "#8b8c8dff" : "#4b5563",
+        },
+        grid: {
+          color: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(211, 204, 204, 0.1)",
+          drawOnChartArea: true,
+          drawTicks: true,
+          drawBorder: true,
         },
       },
       x: {
@@ -81,6 +93,13 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
             size: isMobile ? 7 : 12,
             family: "Roboto",
           },
+          color: isDarkMode ? "#8b8c8dff" : "#4b5563",
+        },
+        grid: {
+          color: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(211, 204, 204, 0.1)",
+          drawOnChartArea: true,
+          drawTicks: true,
+          drawBorder: true,
         },
       },
     },
@@ -97,7 +116,13 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <motion.div className={isMobile ? "min-h-[400px] h-[400px]" : ""}  initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, type: "interia" }}>
+      <Bar data={data} options={options} />
+    </motion.div>
+  );
 };
 
 export default BarChart;
