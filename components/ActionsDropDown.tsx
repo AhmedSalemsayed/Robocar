@@ -11,7 +11,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
-// import { FaHistory } from "react-icons/fa";
+import { FaHistory } from "react-icons/fa";
 
 import {
   Dialog,
@@ -25,6 +25,8 @@ import AddNewMaintenaceForm from "./AddNewMaintenaceForm";
 import EditLastMaintenaceForm from "./EditLastMaintenanceForm";
 import RemoveLastMaintenance from "./RemoveLastMaintenance";
 import UpdateChangeEveryForm from "./UpdateChangeEveryForm";
+import ViewMaintenanceHistory from "./ViewMaintenanceHistory";
+
 export function ActionsDropDown({ rowData }: { rowData: rowData }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<
@@ -37,7 +39,7 @@ export function ActionsDropDown({ rowData }: { rowData: rowData }) {
         <DropdownMenuTrigger>
           <SlOptionsVertical />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="relative w-52 right-3">
+        <DropdownMenuContent className="relative w-52 right-1">
           <DialogTrigger className="w-full">
             <DropdownMenuItem onClick={() => setMode("add")}>
               <IoMdAdd />
@@ -59,13 +61,13 @@ export function ActionsDropDown({ rowData }: { rowData: rowData }) {
               Remove Last Maintenance
             </DropdownMenuItem>
 
-            {/* <DropdownMenuItem
+            <DropdownMenuItem
               className="disabled:cursor-not-allowed"
               onClick={() => setMode("viewHistory")}
             >
               <FaHistory />
               View History
-            </DropdownMenuItem> */}
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setMode("changeEvery")}>
               <AiFillEdit />
               Update Change Every
@@ -101,9 +103,11 @@ export function ActionsDropDown({ rowData }: { rowData: rowData }) {
         {mode === "add" && (
           <AddNewMaintenaceForm rowData={rowData} setOpen={setOpen} />
         )}
-
-        {mode == "remove" && (
+        {mode === "remove" && (
           <RemoveLastMaintenance rowData={rowData} setOpen={setOpen} />
+        )}
+        {mode === "viewHistory" && (
+          <ViewMaintenanceHistory rowData={rowData} />
         )}
       </DialogContent>
     </Dialog>
