@@ -2,10 +2,15 @@ import AddNewCar from "@/components/AddNewCar";
 import BarChart from "@/components/BarChart";
 import MissedMaintenance from "@/components/MissedMaintenance";
 import UpcomingMaintenance from "@/components/UpcomingMaintenance";
-
+import {
+  filterMissedMaintenance,
+  filterUpcomingMaintenance,
+  prepareChartData,
+} from "@/lib/utils";
 import { createClerkSupabaseClient } from "@/utils/supabase/server";
 import * as motion from "motion/react-client";
 import { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "RoboCar  | Home",
   description:
@@ -16,6 +21,7 @@ export default async function Home() {
   const supabase = await createClerkSupabaseClient();
 
   const { data: cars } = await supabase.from("cars").select("*");
+
   if (!cars || cars.length === 0)
     return (
       <div className="flex flex-col flex-1 gap-4 justify-center items-center">
@@ -29,36 +35,12 @@ export default async function Home() {
         <AddNewCar />
       </div>
     );
-  const UpcomingMaintenanceData: UpcomingMaintenanceData[] = cars?.map(
-    (car: car) => [
-      car.carId,
-      car.brand,
-      car.model,
-      car?.Maintenance.filter((item: MaintenanceItem) => {
-        const kilometrageNextMaintenance =
-          item?.historyLog?.at(-1)?.kilometrageNextMaintenance ?? 0;
-        return (
-          kilometrageNextMaintenance - item.currentKilometrage <= 1000 &&
-          kilometrageNextMaintenance - item.currentKilometrage > 0
-        );
-      }),
-    ]
-  );
 
-  const MissedMaintenanceData: MissedMaintenanceData[] = cars?.map(
-    (car: car) => [
-      car.carId,
-      car.brand,
-      car.model,
-      car?.Maintenance.filter((item: MaintenanceItem) => {
-        if (!item.historyLog.at(-1)) return false;
-        const kilometrageNextMaintenance =
-          item?.historyLog?.at(-1)?.kilometrageNextMaintenance ?? 0;
+  // Extract and optimize data for components
+  const upcomingMaintenanceData = filterUpcomingMaintenance(cars);
+  const missedMaintenanceData = filterMissedMaintenance(cars);
+  const chartData = prepareChartData(cars);
 
-        return kilometrageNextMaintenance - item.currentKilometrage <= 0;
-      }),
-    ]
-  );
   return (
     <section className="w-full p-4 md:pt-0  flex flex-col gap-1 flex-1 transition-all duration-500">
       <motion.div
@@ -81,10 +63,10 @@ export default async function Home() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, type: "interia" }}
       >
-        <UpcomingMaintenance data={UpcomingMaintenanceData} />
-        <MissedMaintenance data={MissedMaintenanceData} />
+        <UpcomingMaintenance data={upcomingMaintenanceData} />
+        <MissedMaintenance data={missedMaintenanceData} />
       </motion.div>
-        <BarChart MaintenanceData={cars} />
+      <BarChart MaintenanceData={chartData} />
     </section>
   );
 }

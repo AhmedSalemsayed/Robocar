@@ -20,9 +20,21 @@ ChartJS.register(
   LinearScale,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
-const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
+
+type ChartData = {
+  brand: string;
+  model: string;
+  maintenance: Array<{
+    name: string;
+    currentKilometrage: number;
+    changeEvery: number;
+    lastHistoryLog: { kilometrageNextMaintenance: number } | null;
+  }>;
+};
+
+const BarChart = ({ MaintenanceData }: { MaintenanceData: ChartData[] }) => {
   const isMobile = useIsMobile();
   const { isDarkMode } = useDarkMode();
   if (!MaintenanceData || MaintenanceData.length === 0) return null;
@@ -35,22 +47,20 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
     "rgba(54, 162, 235, 0.6)", // blue
   ];
   const data = {
-    labels: MaintenanceData?.at(-1)?.Maintenance.map(
-      (item: MaintenanceItem) => item.name
-    ),
-    datasets: MaintenanceData?.map((car: car, i) => {
+    labels: MaintenanceData?.at(-1)?.maintenance.map((item) => item.name),
+    datasets: MaintenanceData?.map((car, i) => {
       return {
         label: car.brand + " " + car.model,
-        data: car.Maintenance.map((item: MaintenanceItem) => {
+        data: car.maintenance.map((item) => {
           const kilometrageNextMaintenance =
-            item?.historyLog?.at(-1)?.kilometrageNextMaintenance ?? 0;
-          if (item.historyLog.length === 0) return 0;
+            item?.lastHistoryLog?.kilometrageNextMaintenance ?? 0;
+          if (!item.lastHistoryLog) return 0;
           if (kilometrageNextMaintenance - item.currentKilometrage <= 0)
             return 0;
           return Math.round(
             ((kilometrageNextMaintenance - item.currentKilometrage) /
               Number(item.changeEvery)) *
-              100
+              100,
           );
         }),
         backgroundColor: colorPalette[i],
@@ -81,7 +91,9 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
           color: isDarkMode ? "#8b8c8dff" : "#4b5563",
         },
         grid: {
-          color: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(211, 204, 204, 0.1)",
+          color: isDarkMode
+            ? "rgba(255, 255, 255, 0.1)"
+            : "rgba(211, 204, 204, 0.1)",
           drawOnChartArea: true,
           drawTicks: true,
           drawBorder: true,
@@ -96,7 +108,9 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
           color: isDarkMode ? "#8b8c8dff" : "#4b5563",
         },
         grid: {
-          color: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(211, 204, 204, 0.1)",
+          color: isDarkMode
+            ? "rgba(255, 255, 255, 0.1)"
+            : "rgba(211, 204, 204, 0.1)",
           drawOnChartArea: true,
           drawTicks: true,
           drawBorder: true,
@@ -117,9 +131,12 @@ const BarChart = ({ MaintenanceData }: { MaintenanceData: car[] }) => {
   };
 
   return (
-    <motion.div className={isMobile ? "min-h-[400px] h-[400px]" : ""}  initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, type: "interia" }}>
+    <motion.div
+      className={isMobile ? "min-h-[400px] h-[400px]" : ""}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, type: "interia" }}
+    >
       <Bar data={data} options={options} />
     </motion.div>
   );
